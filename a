@@ -1,0 +1,202 @@
+#include <iostream>
+#include <windows.h>
+#include <conio.h>
+#include <list>
+
+using namespace std;
+
+struct Vector{
+string nombre;
+int horaI, horaF;
+};
+struct Tipo{
+int **sillas;
+Vector *jornada;
+};
+list<Tipo> Salas;
+
+void cargando();
+void menuPrincipal();
+void errorDecision();
+void vendedor();
+void administrador();
+bool verificarAdministrador();
+
+int main(int argc, char *argv[]) {
+cout<<"BIENVENIDO A JAVECINE"<<endl;
+Sleep(2500);
+cargando();
+menuPrincipal();
+}
+
+void cargando(){
+system("CLS");
+cout<<"Cargando";
+for (int i=0; i<3; i++){
+cout<<".";
+Sleep(1000);
+}
+}
+void menuPrincipal(){
+int decision;
+system("CLS");
+cout<<"Ingresar como:"<<endl<<"1. Vendedor"<<endl<<"2. Administrador"<<endl<<endl<<"0. Salir"<<endl;
+cin>>decision;
+if (decision<0 || decision>2){
+errorDecision();
+menuPrincipal();
+}
+switch (decision){
+default:
+system("CLS");
+cout<<"Vuelve pronto";
+break;
+case 1:
+vendedor();
+break;
+case 2:
+administrador();
+break;
+}
+}
+void errorDecision(){
+system("CLS");
+cout<<"OPCION NO VALIDA"<<endl;
+Sleep(2500);
+}
+void vendedor(){
+system("CLS");
+}
+void administrador(){
+int decision;
+system("CLS");
+if (!verificarAdministrador()){
+system("CLS");
+cout<<"INGRESO FALLIDO"<<endl;
+Sleep(2500);
+a:
+system("CLS");
+cout<<"1. Volver a intentar"<<endl<<"2. Ir al menu principal"<<endl;
+cin>>decision;
+if (decision<1 || decision>2){
+errorDecision();
+goto a;
+}
+switch (decision){
+case 1:
+administrador();
+break;
+case 2:
+menuPrincipal();
+break;
+}
+}
+else{
+cargando();
+b:
+system("CLS");
+cout<<"1. Administrar salas"<<endl<<"2. Administrar sillas"<<endl<<"3. Administrar peliculas"<<endl<<"4. Consultar registro"<<endl<<endl<<"0. Volver"<<endl;
+cin>>decision;
+if (decision<0 || decision>4){
+errorDecision();
+goto b;
+}
+switch (decision){
+default:
+menuPrincipal();
+break;
+case 1:
+c:
+system("CLS");
+cout<<"1. Aniadir sala"<<endl<<"2. Eliminar sala"<<endl<<endl<<"0. Volver"<<endl;
+cin>>decision;
+if (decision<0 || decision>2){
+errorDecision();
+goto c;
+}
+switch (decision){
+default:
+goto b;
+break;
+case 1:
+break;
+case 2:
+break;
+}
+break;
+case 2:
+d:
+system("CLS");
+cout<<"1. Aniadir silla"<<endl<<"2. Eliminar silla"<<endl<<endl<<"0. Volver"<<endl;
+cin>>decision;
+if (decision<0 || decision>2){
+errorDecision();
+goto d;
+}
+switch (decision){
+default:
+goto b;
+break;
+case 1:
+break;
+case 2:
+break;
+}
+break;
+case 3:
+e:
+system("CLS");
+cout<<"1. Aniadir pelicula"<<endl<<"2. Eliminar pelicula"<<endl<<endl<<"0. Volver"<<endl;
+cin>>decision;
+if (decision<0 || decision>2){
+errorDecision();
+goto e;
+}
+switch (decision){
+default:
+goto b;
+break;
+case 1:
+break;
+case 2:
+break;
+}
+break;
+case 4:
+system("CLS");
+break;
+}
+}
+}
+bool verificarAdministrador(){
+char *usuario=new char[15], contrasenia, *contraseniaVerificable=new char[15];
+int contador=0;
+*contraseniaVerificable=NULL;
+cout<<"Por favor digite su usuario"<<endl;
+cin.ignore();
+cin.getline(usuario, 15);
+cout<<endl<<"Por favor digite su contrasenia"<<endl;
+while (true){
+contrasenia=getch();
+if (contrasenia==13) 
+break;
+if (contrasenia==8 && contador!=0){
+cout <<"\b \b";
+contraseniaVerificable[contador-1]='\0';
+contador--;
+}
+else if (contrasenia!=8){
+cout<<"*";
+*(contraseniaVerificable+contador)=contrasenia;
+contador++;
+}
+}
+if (strcmp(usuario, "Usuario")==0 && strcmp(contraseniaVerificable, "Administrador")==0){
+delete []usuario;
+delete []contraseniaVerificable;
+return true;
+}
+delete []usuario;
+delete []contraseniaVerificable;
+return false;
+}​
